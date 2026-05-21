@@ -2,6 +2,7 @@
 import logging
 import os
 import datetime
+import asyncio
 import threading
 from dotenv import load_dotenv
 from flask import Flask
@@ -18,31 +19,38 @@ logging.basicConfig(format="%(asctime)s - %(name)s - %(levelname)s - %(message)s
 logger = logging.getLogger(__name__)
 
 # --- Tiny Flask server to satisfy Render's port binding requirement ---
-app = Flask(__name__)
+flask_app = Flask(__name__)
 
-@app.route("/")
+@flask_app.route("/")
 def home():
-    return "Bot is running!", 200
+    return "SwasthyaMitra Bot is running!", 200
 
-@app.route("/health")
+@flask_app.route("/health")
 def health():
     return {"status": "ok"}, 200
 
 
 def run_flask():
     port = int(os.environ.get("PORT", 10000))
-    app.run(host="0.0.0.0", port=port)
+    flask_app.run(host="0.0.0.0", port=port)
 
 
-def run_bot() -> None:
+async def run_bot() -> None:
     setup_database()
     os.makedirs("uploads", exist_ok=True)
+
     application = Application.builder().token(BOT_TOKEN).build()
 
     # Reschedule reminders on startup
     for chat_id, medication, time_str, job_name in get_all_reminders():
         reminder_time = datetime.datetime.strptime(time_str, '%H:%M').time()
-        application.job_queue.run_daily(send_reminder_callback, time=reminder_time, data=medication, chat_id=chat_id, name=job_name)
+        application.job_queue.run_daily(
+            send_reminder_callback,
+            time=reminder_time,
+            data=medication,
+            chat_id=chat_id,
+            name=job_name
+        )
     logger.info(f"Rescheduled {len(get_all_reminders())} reminders.")
 
     # Register all handlers
@@ -59,16 +67,22 @@ def run_bot() -> None:
     application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handlers.handle_message))
 
     logger.info("Bot is running...")
-    application.run_polling()
+    async with application:
+        await application.initialize()
+        await application.start()
+        await application.updater.start_polling()
+        # Keep running forever
+        await asyncio.Event().wait()
 
 
 def main() -> None:
-    # Run Flask in a background thread so Render sees an open port
+    # Start Flask in a background thread
     flask_thread = threading.Thread(target=run_flask, daemon=True)
     flask_thread.start()
+    logger.info("Flask server started.")
 
-    # Run the bot on the main thread (required by python-telegram-bot)
-    run_bot()
+    # Run the bot on the main thread using asyncio
+    asyncio.run(run_bot())
 
 
 if __name__ == "__main__":
