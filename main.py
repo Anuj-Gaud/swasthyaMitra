@@ -3,7 +3,7 @@ import logging
 import os
 import datetime
 from dotenv import load_dotenv
-from telegram.ext import Application, CommandHandler, MessageHandler, filters, CallbackQueryHandler, PicklePersistence
+from telegram.ext import Application, CommandHandler, MessageHandler, filters, CallbackQueryHandler
 
 
 from database import setup_database, get_all_reminders
@@ -19,8 +19,7 @@ logger = logging.getLogger(__name__)
 def main() -> None:
     setup_database()
     os.makedirs("uploads", exist_ok=True)
-    persistence = PicklePersistence(filepath="bot_persistence")
-    application = Application.builder().token(BOT_TOKEN).persistence(persistence).build()
+    application = Application.builder().token(BOT_TOKEN).build()
     
     # Reschedule reminders on startup
     for chat_id, medication, time_str, job_name in get_all_reminders():
