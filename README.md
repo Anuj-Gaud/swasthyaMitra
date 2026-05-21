@@ -2,9 +2,15 @@
 
 A multilingual Telegram health bot that provides symptom guidance, medication reminders, and nearby healthcare facility location services. Built for the Smart India Hackathon (SIH).
 
-![Python](https://img.shields.io/badge/Python-3.11.9-blue)
-![Telegram Bot](https://img.shields.io/badge/Telegram-Bot-blue)
-![Status](https://img.shields.io/badge/Status-Live-success)
+[![Python](https://img.shields.io/badge/Python-3.11.9-blue)](https://www.python.org/)
+[![Telegram Bot](https://img.shields.io/badge/Telegram-Bot-blue)](https://t.me/SwasthyaMirtabot)
+[![Status](https://img.shields.io/badge/Status-Live-success)](https://swasthyamitra-oop1.onrender.com)
+
+<div align="center">
+
+### 🤖 [Try the Bot Now on Telegram →](https://t.me/SwasthyaMirtabot)
+
+</div>
 
 ## 🌟 Features
 
@@ -32,7 +38,7 @@ A multilingual Telegram health bot that provides symptom guidance, medication re
 
 ## 🚀 Live Demo
 
-**Bot Username**: [@SwasthyaMitrabot](https://t.me/SwasthyaMitrabot)  
+**Bot Username**: [@SwasthyaMirtabot](https://t.me/SwasthyaMirtabot)  
 **Web Status**: [https://swasthyamitra-oop1.onrender.com](https://swasthyamitra-oop1.onrender.com)
 
 > ⚠️ **Note**: Free tier sleeps after 15 minutes of inactivity. First message may take 30-60 seconds to wake up.
@@ -280,7 +286,7 @@ This project is created for Smart India Hackathon (SIH). All rights reserved.
 
 For issues or questions:
 - Open an issue on [GitHub](https://github.com/Anuj-Gaud/swasthyaMitra/issues)
-- Contact via Telegram: [@SwasthyaMitrabot](https://t.me/SwasthyaMitrabot)
+- Contact via Telegram: [@SwasthyaMirtabot](https://t.me/SwasthyaMirtabot)
 
 ---
 
